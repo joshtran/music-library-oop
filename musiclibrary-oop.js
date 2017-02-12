@@ -1,9 +1,6 @@
 //Library collection
 const libraries = [];
 
-
-
-
 //Library contstructor
 function Library(name, creator) {
   this.name = name;
@@ -13,19 +10,19 @@ function Library(name, creator) {
   libraries.push(this);
 }
 
+//Library prototype methods
 
-//Library Prototype methods
-
-Library.prototype.addPlaylist = function (){
-
+Library.prototype.addPlaylist = function (playlist){
+  this.playlists.push(playlist);
 }
 
 Library.prototype.printPlaylists = function (){
-
+  console.log(`Here are all the playlists in ${this.name} :`);
+  this.playlists.forEach (function(playlist) {
+     console.log(playlist.name);
+    }
+  );
 }
-
-
-
 
 //Playlist constructor
 
@@ -34,34 +31,35 @@ function Playlist(name) {
   this.tracks = [];
 }
 
+// Playlist prototype methods
 
-
-// Playlist methods
-
-
-Playlist.prototype.addTrack = function (){
-
+Playlist.prototype.addTrack = function (track){
+  this.tracks.push(track);
 }
 
 Playlist.prototype.printTracks = function (){
-
+  console.log(`Here are all the tracks in ${this.name}: `);
+  this.tracks.forEach (function(track) {
+     console.log(track.title);
+    }
+  );
 }
 
-Playlist.prototype.overallRating = function (track) {
-  let averageRating = this.tracks.reduce(function(a, b) {
-    return (a.rating + b.rating)/tracks.length;
-  });
-  return averageRating;
+Playlist.prototype.overallRating = function () {
+  let numTracks = this.tracks.length;
+  let sumRating = this.tracks.reduce(function(acc, curr) {
+    return acc + curr.rating;
+  }, 0);
+  console.log(`Overall rating for playlist: ${this.name}`, sumRating/numTracks);
 }
 
 
-Playlist.prototype.overallRating = function (track) {
-  let averageRating = this.tracks.reduce(function(a, b) {
-    return a.length + b.length;
-  });
-  return averageRating;
+Playlist.prototype.totalDuration = function () {
+  let playlistDuration = this.tracks.reduce(function(acc, curr) {
+    return acc + curr.length;
+  }, 0);
+  console.log(`Total duration for playlist: ${this.name}`, playlistDuration);
 }
-
 
 
 //Track constructor
@@ -73,28 +71,23 @@ function Track(title, rating, length) {
 }
 
 
-
-//Track methods
-
-
-
-//Create istances of one library, add new tracks, and playlists to the library.
+//Create instances of one library, add new tracks, and playlists to the library.
 
 let myLibrary = new Library("Joe's Music", "Joe Schmoe");
 let myPlaylist = new Playlist("Super Lit Playlist");
+let myPlaylist2 = new Playlist("Super Lit Playlist2");
 let myTrack = new Track("Small Town Southern Man", 5, 280);
+let myTrack2 = new Track("Protect Ya Neck", 4, 303);
+let myTrack3 = new Track("4′33″", 5, 273);
 
-console.log(libraries);
-console.log(myLibrary);
-console.log(myPlaylist);
-console.log(myTrack);
+myLibrary.addPlaylist(myPlaylist);
+myLibrary.addPlaylist(myPlaylist2);
+myPlaylist.addTrack(myTrack);
+myPlaylist.addTrack(myTrack2);
+myPlaylist.addTrack(myTrack3);
 
+myLibrary.printPlaylists();
+myPlaylist.printTracks(myPlaylist);
+myPlaylist.overallRating();
+myPlaylist.totalDuration();
 
-// let tracks = [{rating: 5}, {rating: 10}];
-// function calculateRating(tracks) {
-//   tracks.reduce(function(a, b) {
-//     return (a.rating + b.rating)/tracks.length;
-//   });
-// }
-
-// calculateRating(tracks);
